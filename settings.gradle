@@ -1,0 +1,2 @@
+include ':videoroom'
+rootProject.name = "Android SDK"
