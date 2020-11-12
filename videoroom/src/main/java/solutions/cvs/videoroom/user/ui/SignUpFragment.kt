@@ -1,4 +1,4 @@
-package solutions.cvs.videoroom.user
+package solutions.cvs.videoroom.user.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

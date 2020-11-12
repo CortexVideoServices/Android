@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/LoginFragment"
-        android:name="solutions.cvs.videoroom.user.LoginFragment"
+        android:name="solutions.cvs.videoroom.user.ui.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/SignUpFragment"
-        android:name="solutions.cvs.videoroom.user.SignUpFragment"
+        android:name="solutions.cvs.videoroom.user.ui.SignUpFragment"
         android:label="fragment_signup"
         tools:layout="@layout/fragment_signup" >
         <action

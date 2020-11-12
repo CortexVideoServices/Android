@@ -1,49 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="@dimen/form_margin"
-    tools:context=".user.LoginFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <data class="LoginData">
+        <variable name="username" type="String"/>
+        <variable name="password" type="String"/>
+        <variable name="viewModel" type="solutions.cvs.videoroom.user.ViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/form_margin"
+        tools:context=".user.ui.LoginFragment">
 
-        <Button
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+        <LinearLayout
+            android:id="@+id/header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="21"
-            android:maxLines="2"
-            android:stateListAnimator="@null"
-            android:text="@string/i_have_an_account"
-            android:textAlignment="textStart"
-            android:textAllCaps="true"
-            app:iconTint="?attr/colorPrimaryVariant" />
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="21"
+                android:maxLines="2"
+                android:stateListAnimator="@null"
+                android:text="@string/i_have_an_account"
+                android:textAlignment="textStart"
+                android:textAllCaps="true"
+                app:iconTint="?attr/colorPrimaryVariant" />
+
+            <Button
+                android:id="@+id/button_2SignUp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:maxLines="2"
+                android:stateListAnimator="@null"
+                android:text="@string/I_have_not_an_account"
+                android:textAlignment="textStart"
+                android:textAllCaps="true"
+                android:textColor="?attr/colorSecondaryVariant" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="21" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/editUsername"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/form_margin"
+            android:autofillHints=""
+            android:hint="@string/prompt_username"
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true"
+            android:text="@={username}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header" />
+
+        <EditText
+            android:id="@+id/editPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:autofillHints=""
+            android:hint="@string/prompt_password"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:selectAllOnFocus="true"
+            android:text="@={password}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editUsername" />
 
         <Button
-            android:id="@+id/button_2SignUp"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="match_parent"
+            android:id="@+id/btnLogin"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:maxLines="2"
-            android:stateListAnimator="@null"
-            android:text="@string/I_have_not_an_account"
-            android:textAlignment="textStart"
-            android:textAllCaps="true"
-            android:textColor="?attr/colorSecondaryVariant" />
+            android:layout_gravity="start"
+            android:layout_marginTop="@dimen/form_margin"
+            android:enabled="true"
+            android:onClick="@{()->viewModel.doLogin(username, password)}"
+            android:text="@string/label_login"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editPassword"
+            app:layout_constraintVertical_bias="0.0" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="21" />
-    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
