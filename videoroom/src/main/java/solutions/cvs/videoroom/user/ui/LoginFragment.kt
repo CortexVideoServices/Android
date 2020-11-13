@@ -6,40 +6,48 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import solutions.cvs.videoroom.R
-import solutions.cvs.videoroom.databinding.LoginData
-import solutions.cvs.videoroom.user.ViewModel
+import solutions.cvs.videoroom.base.BaseFragment
+import solutions.cvs.videoroom.databinding.UserLoginBinding
+import solutions.cvs.videoroom.user.UserSession
 
 
 /**
- * LoginFragment
+ * Login fragment
  */
-class LoginFragment : Fragment() {
+class LoginFragment : BaseFragment() {
 
-    private lateinit var viewModel: ViewModel
+    private val userSession: UserSession by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
-        val binding = DataBindingUtil.inflate<LoginData>(inflater, R.layout.fragment_login, container, false)
-        binding.lifecycleOwner = viewLifecycleOwner
-        binding.viewModel = viewModel
-        binding.username = "SSS"
-        binding.password = "000"
-        return binding.root
+        return DataBindingUtil.inflate<UserLoginBinding>(inflater, R.layout.fragment_login, container, false).also {
+            it.lifecycleOwner = viewLifecycleOwner
+            it.userSession = userSession
+        }.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        userSession.error.observe(viewLifecycleOwner, { error ->
+            if (error != null)
+                Snackbar.make(view, error, Snackbar.LENGTH_LONG)
+                    .addCallback(object : BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            super.onDismissed(transientBottomBar, event)
+                            userSession.resetError()
+                        }
+                    }).show()
+        })
 
         view.findViewById<Button>(R.id.button_2SignUp).setOnClickListener {
             findNavController().navigate(R.id.action_Login2SignUp)

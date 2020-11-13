@@ -2,27 +2,27 @@ package solutions.cvs.videoroom
 
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.fragment.NavHostFragment
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import solutions.cvs.videoroom.base.BaseActivity
+import solutions.cvs.videoroom.user.UserSession
 
+/**
+ * Application main activity
+ */
+class MainActivity : BaseActivity() {
 
-class MainActivity : AppCompatActivity() {
+    val userSession: UserSession by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        userSession.authenticated.observe(this, Observer {authenticated ->
+            if (authenticated) setStartDestination(R.id.destination_CreateConference)
+            else setStartDestination(R.id.destination_Login)
+        })
     }
 
-    override fun onStart() {
-        super.onStart()
-        // Select default navigation destination
-        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
-        val navController = navHost!!.navController
-        val navInflater = navController.navInflater
-        val graph = navInflater.inflate(R.navigation.nav_graph)
-        graph.startDestination = R.id.SignUpFragment
-        navController.setGraph(graph);
-
-    }
 }

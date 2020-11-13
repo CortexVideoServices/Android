@@ -3,17 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data class="UserLoginBinding">
-        <variable name="username" type="String"/>
-        <variable name="password" type="String"/>
+    <data class="CreateConferenceBinding">
+        <variable
+            name="displayName"
+            type="String" />
+        <variable
+            name="description"
+            type="String" />
+        <variable
+            name="allowAnonymous"
+            type="Boolean" />
         <variable name="userSession" type="solutions.cvs.videoroom.user.UserSession" />
+        <variable name="conferenceVM" type="solutions.cvs.videoroom.conference.ViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/form_margin"
-        tools:context=".user.ui.LoginFragment">
+        tools:context=".conference.ui.CreateFragment">
 
         <LinearLayout
             android:id="@+id/header"
@@ -31,20 +40,21 @@
                 android:layout_weight="21"
                 android:maxLines="2"
                 android:stateListAnimator="@null"
-                android:text="@string/i_have_an_account"
+                android:text="@string/label_video_conference"
                 android:textAlignment="textStart"
                 android:textAllCaps="true"
                 app:iconTint="?attr/colorPrimaryVariant" />
 
             <Button
-                android:id="@+id/button_2SignUp"
+                android:id="@+id/button_Logout"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="20"
                 android:maxLines="2"
                 android:stateListAnimator="@null"
-                android:text="@string/I_have_not_an_account"
+                android:text="@string/label_logout"
+                android:onClick="@{()->userSession.doLogout()}"
                 android:textAlignment="textStart"
                 android:textAllCaps="true"
                 android:textColor="?attr/colorSecondaryVariant" />
@@ -55,51 +65,77 @@
                 android:layout_weight="21" />
         </LinearLayout>
 
-        <EditText
-            android:id="@+id/editUsername"
-            android:layout_width="0dp"
+        <TextView
+            android:id="@+id/textCreateLimitation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/form_margin"
-            android:autofillHints=""
-            android:hint="@string/prompt_username"
-            android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true"
-            android:text='@={username, default=""}'
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header" />
+            android:layout_marginTop="@dimen/form_item_margin"
+            android:text="@string/text_create_limitation"
+            app:layout_constraintTop_toBottomOf="@id/header" />
+
+        <TextView
+            android:id="@+id/textStartLimitation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/form_item_margin"
+            android:text="@string/text_start_limitation"
+            app:layout_constraintTop_toBottomOf="@id/textCreateLimitation" />
 
         <EditText
-            android:id="@+id/editPassword"
+            android:id="@+id/editDisplayName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/form_item_margin"
             android:autofillHints=""
-            android:hint="@string/prompt_password"
-            android:imeOptions="actionDone"
-            android:inputType="textPassword"
+            android:hint="@string/prompt_display_name"
+            android:text='@={displayName, default=""}'
+            android:inputType="textShortMessage"
             android:selectAllOnFocus="true"
-            android:text='@={password, default=""}'
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editUsername" />
+            app:layout_constraintTop_toBottomOf="@+id/textStartLimitation" />
+
+        <EditText
+            android:id="@+id/editDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/form_item_margin"
+            android:autofillHints=""
+            android:hint="@string/prompt_description"
+            android:text='@={description, default=""}'
+            android:imeOptions="actionDone"
+            android:inputType="textLongMessage"
+            android:selectAllOnFocus="true"
+            android:singleLine="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editDisplayName" />
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/prompt_allow_anonymous"
+            android:checked="@={allowAnonymous, default=false}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editDescription" />
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnCreateConference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:layout_marginTop="@dimen/form_margin"
+            android:layout_marginTop="@dimen/form_item_margin"
             android:enabled="true"
-            android:onClick='@{()->userSession.doLogin(username, password)}'
-            android:text="@string/label_login"
+            android:text="@string/label_create"
+            android:onClick="@{()->conferenceVM.createConference(displayName, description, allowAnonymous)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editPassword"
+            app:layout_constraintTop_toBottomOf="@+id/checkBox"
             app:layout_constraintVertical_bias="0.0" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

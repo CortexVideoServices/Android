@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import solutions.cvs.videoroom.R
 
 /**
- * A simple [Fragment] subclass as the second destination in the navigation.
+ * Sign up fragment
  */
 class SignUpFragment : Fragment() {
 

@@ -51,6 +51,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/form_item_margin"
         android:text="@string/text_signup"
         android:textColor="?attr/colorPrimaryVariant"
         app:layout_constraintTop_toBottomOf="@id/linearLayout" />

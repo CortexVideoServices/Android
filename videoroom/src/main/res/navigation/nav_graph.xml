@@ -3,25 +3,30 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/LoginFragment">
+    app:startDestination="@id/destination_Login">
 
 
     <fragment
-        android:id="@+id/LoginFragment"
+        android:id="@+id/destination_Login"
         android:name="solutions.cvs.videoroom.user.ui.LoginFragment"
-        android:label="fragment_login"
+        android:label="Login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_Login2SignUp"
-            app:destination="@id/SignUpFragment" />
+            app:destination="@id/destination_SignUp" />
     </fragment>
     <fragment
-        android:id="@+id/SignUpFragment"
+        android:id="@+id/destination_SignUp"
         android:name="solutions.cvs.videoroom.user.ui.SignUpFragment"
-        android:label="fragment_signup"
-        tools:layout="@layout/fragment_signup" >
+        android:label="SignUp"
+        tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_SignUp2Login"
-            app:destination="@id/LoginFragment" />
+            app:destination="@id/destination_Login" />
     </fragment>
+    <fragment
+        android:id="@+id/destination_CreateConference"
+        android:name="solutions.cvs.videoroom.conference.ui.CreateFragment"
+        android:label="Create conference"
+        tools:layout="@layout/fragment_conference_create" />
 </navigation>

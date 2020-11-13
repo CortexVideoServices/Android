@@ -12,10 +12,12 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:contentDescription="@string/alt_logo"
+        android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/nav_host_fragment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1.25"
         app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <androidx.fragment.app.FragmentContainerView
@@ -28,6 +30,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintVertical_weight="2"
         app:navGraph="@navigation/nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

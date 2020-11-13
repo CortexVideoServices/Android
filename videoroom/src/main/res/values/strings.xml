@@ -8,4 +8,14 @@
     <string name="prompt_username">EMail</string>
     <string name="prompt_password">Password</string>
     <string name="label_login">Login</string>
+
+    <string name="label_video_conference">Video conference</string>
+    <string name="label_logout">Logout</string>
+    <string name="label_create">Create conference</string>
+    <string name="prompt_display_name">Display name</string>
+    <string name="prompt_description">Description</string>
+    <string name="prompt_allow_anonymous">Allow anonymous</string>
+    <string name="text_create_limitation">At the moment, only one current video conference can be created. Enter a description and determine if anonymous users can connect.</string>
+    <string name="text_start_limitation">Attention! The time during which you can start the created conference is limited.</string>
+
 </resources>
