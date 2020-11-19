@@ -13,8 +13,8 @@
         <variable
             name="allowAnonymous"
             type="Boolean" />
-        <variable name="userSession" type="solutions.cvs.videoroom.user.UserSession" />
-        <variable name="conferenceVM" type="solutions.cvs.videoroom.conference.ViewModel" />
+        <variable name="userSession" type="solutions.cvs.videoroom.UserSession" />
+        <variable name="conferenceVM" type="solutions.cvs.videoroom.ConferenceVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/form_margin"
-        tools:context=".conference.ui.CreateFragment">
+        tools:context=".ui.CreateFragment">
 
         <LinearLayout
             android:id="@+id/header"

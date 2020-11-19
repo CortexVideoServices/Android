@@ -6,14 +6,14 @@
     <data class="UserLoginBinding">
         <variable name="username" type="String"/>
         <variable name="password" type="String"/>
-        <variable name="userSession" type="solutions.cvs.videoroom.user.UserSession" />
+        <variable name="userSession" type="solutions.cvs.videoroom.UserSession" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/form_margin"
-        tools:context=".user.ui.LoginFragment">
+        tools:context=".ui.LoginFragment">
 
         <LinearLayout
             android:id="@+id/header"

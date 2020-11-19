@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="@dimen/form_margin"
-    tools:context=".user.ui.SignUpFragment">
+    tools:context=".ui.SignUpFragment">
 
     <LinearLayout
         android:id="@+id/linearLayout"
