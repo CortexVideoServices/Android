@@ -26,7 +26,28 @@
     </fragment>
     <fragment
         android:id="@+id/destination_CreateConference"
-        android:name="solutions.cvs.videoroom.ui.CreateFragment"
+        android:name="solutions.cvs.videoroom.ui.CreateConfFragment"
         android:label="Create conference"
-        tools:layout="@layout/fragment_conference_create" />
+        tools:layout="@layout/fragment_conf_create" >
+        <action
+            android:id="@+id/action_Create2CurrentConference"
+            app:destination="@id/destination_CurrentConference" />
+    </fragment>
+    <fragment
+        android:id="@+id/destination_Loader"
+        android:name="solutions.cvs.videoroom.ui.LoaderFragment"
+        android:label="fragment_loader"
+        tools:layout="@layout/fragment_loader" >
+        <action
+            android:id="@+id/action_2CreateConference"
+            app:destination="@id/destination_CreateConference" />
+        <action
+            android:id="@+id/action_2CurrentConference"
+            app:destination="@id/destination_CurrentConference" />
+    </fragment>
+    <fragment
+        android:id="@+id/destination_CurrentConference"
+        android:name="solutions.cvs.videoroom.ui.CurrentConferenceFragment"
+        android:label="fragment_current_conference"
+        tools:layout="@layout/fragment_current_conf" />
 </navigation>

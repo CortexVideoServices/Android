@@ -12,7 +12,7 @@ import retrofit2.http.Path
  * Conference data
  */
 data class ConferenceData(
-    val userData: UserData,
+    val userData: UserData?,
     val description: String,
     @SerializedName("session_id")
     val sessionId: String,
@@ -55,5 +55,5 @@ interface ConferenceAPI {
      * Creates conference
      */
     @POST("conference")
-    fun createConference(@Body request: CreateConferenceRequest): Call<Any>
+    fun createConference(@Body request: CreateConferenceRequest): Call<ConferenceData>
 }

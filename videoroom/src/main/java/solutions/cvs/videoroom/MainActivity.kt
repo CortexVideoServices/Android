@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 class MainActivity : AppCompatActivity() {
 
     val userSession: UserSession by viewModels()
+    val conferenceVM: ConferenceVM by viewModels()
 
     protected fun setStartDestination(destinationId: Int) {
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         userSession.authenticated.observe(this, Observer {authenticated ->
-            if (authenticated) setStartDestination(R.id.destination_CreateConference)
+            if (authenticated) setStartDestination(R.id.destination_Loader)
             else setStartDestination(R.id.destination_Login)
         })
     }

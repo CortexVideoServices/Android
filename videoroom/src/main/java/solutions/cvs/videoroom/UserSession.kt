@@ -9,7 +9,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import solutions.cvs.videoroom.api.Client
 import solutions.cvs.videoroom.api.UserData
-import java.net.URL
 
 
 /**
@@ -20,7 +19,7 @@ class UserSession() : ViewModel() {
     private var viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private val liveError = MutableLiveData<String?>()
-    private var client: Client = Client(URL("http://192.168.1.113:7000/backend/"))
+    private var client: Client = Client.instance()
 
     /**
      * Current user data if this session is authenticated, otherwise null
@@ -57,7 +56,7 @@ class UserSession() : ViewModel() {
                     val userData = client.login(username, password)
                     if (userData == null) liveError.value = "Incorrect username or password"
                 } catch (e: Throwable) {
-                    val message = "Cannot connect to server"
+                    val message = "Cannot received data from server"
                     liveError.value = message
                     Log.e("CAUGHT", message, e)
                 }
