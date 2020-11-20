@@ -2,21 +2,31 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="solutions.cvs.videoroom">
 
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/title_app"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/Theme.Android">
+
+        <activity
+            android:label="@string/title_videoroom"
+            android:name=".VideoRoomActivity"
+            android:parentActivityName=".MainActivity"/>
+
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.Android.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

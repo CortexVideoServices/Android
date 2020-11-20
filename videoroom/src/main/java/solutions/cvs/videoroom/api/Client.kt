@@ -15,15 +15,14 @@ import java.net.URL
 /**
  * API client
  */
-class Client(baseURL: URL) {
+class Client(baseURL: String) {
 
     companion object Factory {
-        private var inst: Client? = null;
-        fun instance(): Client {
-            if (inst == null) {
-                inst = Client(URL("http://192.168.1.113:7000/backend/"))
-                return inst!!
-            } else return inst!!;
+        private var instances = mutableMapOf<String, Client>();
+        fun instance(baseUrl: String): Client {
+            if (!instances.containsKey(baseUrl))
+                instances[baseUrl] = Client("$baseUrl/backend/")
+            return instances[baseUrl]!!;
         }
     }
 

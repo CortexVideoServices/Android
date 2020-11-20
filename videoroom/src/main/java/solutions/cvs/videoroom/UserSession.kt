@@ -1,6 +1,8 @@
 package solutions.cvs.videoroom
 
 
+import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.CoroutineScope
@@ -14,12 +16,13 @@ import solutions.cvs.videoroom.api.UserData
 /**
  * User session
  */
-class UserSession() : ViewModel() {
+class UserSession(application: Application) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
+    private val sPref = application.applicationContext.getSharedPreferences("videoroom", Context.MODE_PRIVATE)
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     private val liveError = MutableLiveData<String?>()
-    private var client: Client = Client.instance()
+    private var client: Client = Client.instance(sPref.getString("baseUrl", "https://cvs.solutions") ?:"")
 
     /**
      * Current user data if this session is authenticated, otherwise null

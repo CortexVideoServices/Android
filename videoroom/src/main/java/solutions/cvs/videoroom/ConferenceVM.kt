@@ -6,10 +6,13 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.util.Log
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.Transformations.*
+import androidx.navigation.findNavController
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +20,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import solutions.cvs.videoroom.api.Client
 import solutions.cvs.videoroom.api.ConferenceData
-
 
 
 class ConferenceVM(application: Application) : AndroidViewModel(application) {
@@ -28,17 +30,15 @@ class ConferenceVM(application: Application) : AndroidViewModel(application) {
     val conferenceData: LiveData<ConferenceData?>
         get() = liveConferenceData
 
-    val sessionId: LiveData<String?>
-        get() =  Transformations.map(liveConferenceData) { conferenceData -> conferenceData?.sessionId}
 
     val displayName: LiveData<String>
-        get() =  Transformations.map(liveConferenceData) { conferenceData -> conferenceData?.displayName ?: ""}
+        get() = map(liveConferenceData) { conferenceData -> conferenceData?.displayName ?: "" }
 
     val description: LiveData<String>
-        get() =  Transformations.map(liveConferenceData) { conferenceData -> conferenceData?.description ?: ""}
+        get() = map(liveConferenceData) { conferenceData -> conferenceData?.description ?: "" }
 
     val allowAnonymous: LiveData<Boolean>
-        get() =  Transformations.map(liveConferenceData) { conferenceData -> conferenceData?.allowAnonymous ?: false}
+        get() = map(liveConferenceData) { conferenceData -> conferenceData?.allowAnonymous ?: false }
 
     /**
      * Conference data ready
@@ -48,7 +48,9 @@ class ConferenceVM(application: Application) : AndroidViewModel(application) {
 
     private var viewModelJob = Job()
     private val viewModelScope = CoroutineScope(Dispatchers.Main + viewModelJob)
-    private var client: Client = Client.instance()
+    private val sPref = application.applicationContext.getSharedPreferences("videoroom", Context.MODE_PRIVATE)
+    private val baseUrl = sPref.getString("baseUrl", "https://cvs.solutions") ?: ""
+    private var client: Client = Client.instance(baseUrl)
     private val liveError = MutableLiveData<String?>()
     private val liveConferenceData = MutableLiveData<ConferenceData?>()
     private val liveConferenceReady = MutableLiveData<Boolean>()
@@ -86,18 +88,20 @@ class ConferenceVM(application: Application) : AndroidViewModel(application) {
     }
 
     fun copyToClipboard(view: View) {
-        if (liveConferenceData.value  != null) {
-            val clipboardManager = view.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val url = "https://cvs.solutions/#/conference/${liveConferenceData.value!!.sessionId}"
-            val data = ClipData.newPlainText("url", url)
-            Snackbar.make(view, R.string.session_to_clipboard, Snackbar.LENGTH_LONG)
-                .setAction("OK") {
-                    clipboardManager.setPrimaryClip(data)
-                }.show();
-        }
+        val sessionId = conferenceData.value!!.sessionId;
+
+        val clipboardManager = view.context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val url = "$baseUrl/#/conference/${sessionId}"
+        val data = ClipData.newPlainText("url", url)
+        Snackbar.make(view, R.string.session_to_clipboard, Snackbar.LENGTH_LONG)
+            .setAction("OK") {
+                clipboardManager.setPrimaryClip(data)
+            }.show();
     }
 
     fun startConference(view: View) {
-
+        val sessionId = conferenceData.value!!.sessionId;
+        val bundle = bundleOf("sessionID" to sessionId)
+        view.findNavController().navigate(R.id.action_2VideoRoom, bundle);
     }
 }

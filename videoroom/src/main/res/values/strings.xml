@@ -22,5 +22,7 @@
     <string name="start_conference">Start</string>
     <string name="invitation_to_clipboard">Copy invitation</string>
     <string name="session_to_clipboard">Invitation to this conference copied to clipboard</string>
+    <string name="title_videoroom">Video room</string>
+    <string name="hello_world">Hello Square World!</string>
 
 </resources>

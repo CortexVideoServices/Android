@@ -49,5 +49,18 @@
         android:id="@+id/destination_CurrentConference"
         android:name="solutions.cvs.videoroom.ui.CurrentConferenceFragment"
         android:label="fragment_current_conference"
-        tools:layout="@layout/fragment_current_conf" />
+        tools:layout="@layout/fragment_current_conf" >
+        <action
+            android:id="@+id/action_2VideoRoom"
+            app:destination="@id/videoRoomActivity" />
+    </fragment>
+    <activity
+        android:id="@+id/videoRoomActivity"
+        android:name="solutions.cvs.videoroom.VideoRoomActivity"
+        android:label="activity_videoroom"
+        tools:layout="@layout/activity_videoroom" >
+        <argument
+            android:name="sessionId"
+            app:argType="string" />
+    </activity>
 </navigation>

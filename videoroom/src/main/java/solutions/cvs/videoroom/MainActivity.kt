@@ -1,6 +1,7 @@
 package solutions.cvs.videoroom
 
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +27,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        val sPref = application.applicationContext.getSharedPreferences("videoroom", Context.MODE_PRIVATE)
+        sPref.edit().run {
+            putString("baseUrl", "http://192.168.1.113:7000")
+            apply()
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))

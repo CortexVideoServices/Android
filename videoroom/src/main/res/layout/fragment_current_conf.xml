@@ -75,6 +75,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/form_margin"
+            app:boxBackgroundColor="#00FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textStartLimitation">
@@ -85,7 +86,8 @@
                 android:enabled="false"
                 android:hint="@string/prompt_display_name"
                 android:inputType="none"
-                android:text='@{conferenceVM.displayName}' />
+                android:text='@{conferenceVM.displayName}'
+                android:textColor="?android:attr/textColorPrimaryNoDisable" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -97,9 +99,10 @@
             android:layout_marginTop="@dimen/form_item_margin"
             android:imeOptions="actionDone"
             android:selectAllOnFocus="true"
+            app:boxBackgroundColor="#00FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editDisplayName" >
+            app:layout_constraintTop_toBottomOf="@+id/editDisplayName">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -108,7 +111,8 @@
                 android:hint="@string/prompt_description"
                 android:inputType="none"
                 android:singleLine="false"
-                android:text='@{conferenceVM.description}' />
+                android:text='@{conferenceVM.description}'
+                android:textColor="?android:attr/textColorPrimaryNoDisable" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
