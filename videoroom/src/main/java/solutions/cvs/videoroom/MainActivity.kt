@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         val sPref = application.applicationContext.getSharedPreferences("videoroom", Context.MODE_PRIVATE)
         sPref.edit().run {
-            putString("baseUrl", "http://192.168.1.113:7000")
+            putString("baseUrl", "https://cvs.solutions")
             apply()
         }
 
