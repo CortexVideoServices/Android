@@ -1,41 +1,69 @@
 package solutions.cvs.sdk
 
-import solutions.cvs.sdk.janus.Connection
-import solutions.cvs.sdk.janus.ConnectionListener
-import solutions.cvs.sdk.videoroom.VideoroomSession
+import android.content.Context
+import org.json.JSONObject
+import org.webrtc.EglBase
+import org.webrtc.PeerConnection
 
 
-/// Session interface
-interface Session : solutions.cvs.sdk.janus.Session {
-    /// Session ID
-    val id: String
+interface Session {
 
-    companion object {
-        /// Create session
-        fun create(sessionId: String): Session {
-            return SessionImpl(sessionId)
-        }
+    /// Settings
+    val settings: Settings
+
+    /// Connection
+    val connection: Connection
+
+    /// Connects to the session server
+    fun connect(): Unit
+
+    /// Starts a publisher streaming to the session.
+    fun publish(publisher: Publisher): Unit
+
+    /// Disconnects the publisher from the session.
+    fun unpublish(publisher: Publisher): Unit
+
+    /// Disconnects from the session
+    fun disconnect(): Unit
+
+    /// Session settings
+    interface Settings : Connection.Settings {
+
+        /// Application context
+        val appContext: Context
+
+        /// Session ID
+        val sessionId: String
+
+        /// EGL base
+        var eglBase: EglBase
+
+        /// RTC configuration
+        val rtcConfiguration: PeerConnection.RTCConfiguration
+
+        /// Hardware acceleration switcher
+        val hardwareAcceleration: Boolean
     }
-}
 
-internal class SessionImpl(
-    override val id: String
-) : VideoroomSession(id.toLong(36)), Session {
+    /// Session observer
+    interface Observer  {
 
-    init {
-        var reconnect = false
-        connection.addListener(object : ConnectionListener {
-            override fun onError(connection: Connection, reason: Throwable) {
-                reconnect = true
-                connection.close(reason)
-            }
+        /// Called when an error occurred
+        fun onError(reason: Throwable): Unit?
 
-            override fun onDisconnect(connection: Connection, reason: Throwable?) {
-                if (reason != null && reconnect) {
-                    reconnect = false
-                    connect()
-                }
-            }
-        })
+        /// Called when the session client connects to the session server.
+        fun onConnected(): Unit?
+
+        /// Called when a connection error occurred
+        fun onConnectionError(reason: Throwable): Unit?
+
+        /// Called when the session client has disconnected from the session server.
+        fun onDisconnected(): Unit?
+
+        /// Called when a new stream is received published for this session.
+        fun onStreamReceived(stream: Stream): Unit?
+
+        /// Called when stops publishing a stream to this session.
+        fun onStreamDropped(stream: Stream): Unit?
     }
 }
