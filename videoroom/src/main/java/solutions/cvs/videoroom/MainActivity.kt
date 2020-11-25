@@ -1,18 +1,25 @@
 package solutions.cvs.videoroom
 
 
+import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 
+const val RC_APPLICATION_PERMISSION = 1234
 
 /**
  * Application main activity
  */
 class MainActivity : AppCompatActivity() {
+
+    var permissionsGranted: Boolean = false
+        private set
 
     val userSession: UserSession by viewModels()
     val conferenceVM: ConferenceVM by viewModels()
@@ -42,6 +49,38 @@ class MainActivity : AppCompatActivity() {
             if (authenticated) setStartDestination(R.id.destination_Loader)
             else setStartDestination(R.id.destination_Login)
         })
+        requestPermissions()
     }
+
+    @AfterPermissionGranted(RC_APPLICATION_PERMISSION)
+    fun requestPermissions() {
+        val perms = arrayOf(
+            Manifest.permission.INTERNET,
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS
+        )
+        if (EasyPermissions.hasPermissions(applicationContext, *perms))
+            onPermissionsGranted()
+        else {
+            EasyPermissions.requestPermissions(
+                this,
+                "This app needs access to your camera and mic to make video calls",
+                RC_APPLICATION_PERMISSION,
+                *perms
+            )
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
+    }
+
+    private fun onPermissionsGranted() {
+        permissionsGranted = true
+    }
+
 
 }

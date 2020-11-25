@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.HttpException
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -95,7 +97,7 @@ class Client(baseURL: String) {
                 else throw e
             }
         } else {
-            val responseBody = ResponseBody.create(MediaType.parse("text/plain"), "Refresh token missing")
+            val responseBody = "Refresh token missing".toResponseBody("text/plain".toMediaTypeOrNull())
             throw HttpException(Response.error<ResponseBody>(401, responseBody))
         }
     }
