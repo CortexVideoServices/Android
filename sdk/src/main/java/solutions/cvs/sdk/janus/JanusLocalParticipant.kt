@@ -18,11 +18,11 @@ class JanusLocalParticipant(
     override val participantName = settings.participantName
 
     var plugin: JanusPlugin? = null
-    private var roomId: Long = 0
+    private var conferenceSessionId: String = ""
 
-    fun attache(plugin: JanusPlugin, roomId: Long, onResult: (result: Any) -> Unit) {
+    fun attache(plugin: JanusPlugin, conferenceSessionId: String, onResult: (result: Any) -> Unit) {
         this.plugin = plugin
-        this.roomId = roomId
+        this.conferenceSessionId = conferenceSessionId
         thisThread.post {
             plugin.attach { result ->
                 if (result is Throwable)
@@ -102,7 +102,7 @@ class JanusLocalParticipant(
                             "body" to JSONObject(
                                 mapOf(
                                     "request" to "create",
-                                    "room" to roomId,
+                                    "conferenceSessionId" to conferenceSessionId,
                                     "private" to true
                                 )
                             )
@@ -131,7 +131,7 @@ class JanusLocalParticipant(
                                 mapOf(
                                     "request" to "join",
                                     "ptype" to "publisher",
-                                    "room" to roomId
+                                    "conferenceSessionId" to conferenceSessionId
                                 )
                             )
                         )

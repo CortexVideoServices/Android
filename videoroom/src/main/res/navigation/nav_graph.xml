@@ -58,7 +58,8 @@
         android:id="@+id/videoRoomActivity"
         android:name="solutions.cvs.videoroom.VideoRoomActivity"
         android:label="activity_videoroom"
-        tools:layout="@layout/activity_videoroom" >
+        app:dataPattern="{sessionId}"
+        tools:layout="@layout/activity_videoroom">
         <argument
             android:name="sessionId"
             app:argType="string" />

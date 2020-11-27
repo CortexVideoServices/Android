@@ -14,14 +14,14 @@ class JanusRemoteParticipant(
 ) : RemoteParticipant(settings, logger) {
 
     var plugin: JanusPlugin? = null
-    private var roomId: Long = 0
+    private var conferenceSessionId: String = ""
     private var feedId: Long = 0
 
     override var participantName = null
 
-    fun attache(plugin: JanusPlugin, roomId: Long, feedId: Long, privateId: Long, onResult: (result: Any) -> Unit) {
+    fun attache(plugin: JanusPlugin, conferenceSessionId: String, feedId: Long, privateId: Long, onResult: (result: Any) -> Unit) {
         this.plugin = plugin
-        this.roomId = roomId
+        this.conferenceSessionId = conferenceSessionId
         this.feedId = feedId
         thisThread.post {
             plugin.attach { result ->
@@ -67,7 +67,7 @@ class JanusRemoteParticipant(
                                 mapOf(
                                     "request" to "join",
                                     "ptype" to "subscriber",
-                                    "room" to roomId,
+                                    "conferenceSessionId" to conferenceSessionId,
                                     "feed" to feedId,
                                     "private_id" to privateId
                                 )
@@ -105,7 +105,7 @@ class JanusRemoteParticipant(
                                     "body" to JSONObject(
                                         mapOf(
                                             "request" to "start",
-                                            "room" to roomId
+                                            "conferenceSessionId" to conferenceSessionId
                                         )
                                     ),
                                     "jsep" to JSONObject(

@@ -11,7 +11,7 @@ class JanusSession(
     private val observer: Observer
 ) : Session {
 
-    private val roomId = settings.sessionId.toLong(36)
+    private val conferenceSessionId = settings.sessionId
     private var roomDescription: String = ""
     private var privateId: Long = 0
 
@@ -66,7 +66,7 @@ class JanusSession(
         if (!subscribers.containsKey(feedId)) {
             val subscriber = JanusRemoteParticipant(settings)
             val plugin = JanusPlugin(janusConnection)
-            subscriber.attache(plugin, roomId, feedId, privateId) { attachResult ->
+            subscriber.attache(plugin, conferenceSessionId, feedId, privateId) { attachResult ->
                 if (attachResult is JSONObject) {
                     subscribers.put(feedId, subscriber)
                     observer.onStreamReceived(subscriber)
@@ -105,7 +105,7 @@ class JanusSession(
         try {
             if (connection.state == Connection.State.Connected) {
                 val plugin = JanusPlugin(janusConnection)
-                publisher.attache(plugin, roomId) { attachResult ->
+                publisher.attache(plugin, conferenceSessionId) { attachResult ->
                     if (attachResult is JSONObject) {
                         roomDescription = attachResult.optString("description")
                         privateId = attachResult.optLong("private_id", 0)

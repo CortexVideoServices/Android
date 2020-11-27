@@ -101,7 +101,7 @@ class ConferenceVM(application: Application) : AndroidViewModel(application) {
 
     fun startConference(view: View) {
         val sessionId = conferenceData.value!!.sessionId;
-        val bundle = bundleOf("sessionID" to sessionId)
+        val bundle = bundleOf("sessionId" to sessionId)
         view.findNavController().navigate(R.id.action_2VideoRoom, bundle);
     }
 }
