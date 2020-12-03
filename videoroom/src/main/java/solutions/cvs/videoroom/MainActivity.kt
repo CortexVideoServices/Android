@@ -2,11 +2,18 @@ package solutions.cvs.videoroom
 
 
 import android.Manifest
+import android.content.ClipData
+import android.content.ClipDescription
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
@@ -52,6 +59,25 @@ class MainActivity : AppCompatActivity() {
         requestPermissions()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                true
+            }
+            R.id.action_paste_invitation -> {
+                val sessionId = pasteSessionId();
+                if (sessionId != null) startSession(sessionId)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     @AfterPermissionGranted(RC_APPLICATION_PERMISSION)
     fun requestPermissions() {
         val perms = arrayOf(
@@ -82,5 +108,31 @@ class MainActivity : AppCompatActivity() {
         permissionsGranted = true
     }
 
+    private fun pasteSessionId(): String? {
+        var result: String? = null
+        val clipboardManager = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        if (clipboardManager.hasPrimaryClip() &&
+            clipboardManager.primaryClipDescription?.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)!!
+        ) {
+            val text = clipboardManager.primaryClip?.getItemAt(0)?.text
+            if (text != null) {
+                val p = text.findLastAnyOf(listOf("/#/conference/"))
+                if (p != null) {
+                    val offset = p.first + 14;
+                    result = text.substring(offset)
+                    val data = ClipData.newPlainText("", "")
+                    clipboardManager.setPrimaryClip(data)
+                }
+            }
+        }
+        return result
+    }
+
+    private fun startSession(sessionId: String) {
+        val bundle = bundleOf("sessionId" to sessionId)
+        val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+        val navController = navHost!!.navController
+        navController.navigate(R.id.action_3VideoRoom, bundle);
+    }
 
 }

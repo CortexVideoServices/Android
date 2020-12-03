@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_paste_invitation"
+        android:title="@string/paste_invintation" />
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/application_settings" />
+</menu>

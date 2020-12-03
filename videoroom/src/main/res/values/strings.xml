@@ -24,5 +24,6 @@
     <string name="session_to_clipboard">Invitation to this conference copied to clipboard</string>
     <string name="title_videoroom">Video room</string>
     <string name="hello_world">Hello Square World!</string>
-
+    <string name="paste_invintation">Invitation from clipboard</string>
+    <string name="application_settings">Application settings</string>
 </resources>
