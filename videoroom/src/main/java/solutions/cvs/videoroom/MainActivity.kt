@@ -2,23 +2,27 @@ package solutions.cvs.videoroom
 
 
 import android.Manifest
-import android.content.ClipData
-import android.content.ClipDescription
-import android.content.ClipboardManager
-import android.content.Context
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.*
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import pub.devrel.easypermissions.AfterPermissionGranted
 import pub.devrel.easypermissions.EasyPermissions
+import solutions.cvs.videoroom.ui.SetUrlDialog
+
 
 const val RC_APPLICATION_PERMISSION = 1234
+const val RESTART_INTENT_ID = 321
 
 /**
  * Application main activity
@@ -30,6 +34,8 @@ class MainActivity : AppCompatActivity() {
 
     val userSession: UserSession by viewModels()
     val conferenceVM: ConferenceVM by viewModels()
+
+    lateinit var dlgSetUrl: SetUrlDialog;
 
     protected fun setStartDestination(destinationId: Int) {
         val navHost = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
@@ -43,16 +49,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val sPref = application.applicationContext.getSharedPreferences("videoroom", Context.MODE_PRIVATE)
-        sPref.edit().run {
-            putString("baseUrl", "https://cvs.solutions")
-            apply()
-        }
+        if (sPref.getString("baseUrl", null) == null)
+            sPref.edit().run {
+                putString("baseUrl", "https://cvs.solutions")
+                apply()
+            }
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        userSession.authenticated.observe(this, Observer {authenticated ->
+        dlgSetUrl = SetUrlDialog()
+
+        userSession.authenticated.observe(this, Observer { authenticated ->
             if (authenticated) setStartDestination(R.id.destination_Loader)
             else setStartDestination(R.id.destination_Login)
         })
@@ -67,6 +76,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
+                dlgSetUrl.show(supportFragmentManager, "SetUrl")
                 true
             }
             R.id.action_paste_invitation -> {
@@ -135,4 +145,19 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.action_3VideoRoom, bundle);
     }
 
+
+    fun triggerRestart(context: Context) {
+        val startActivity = Intent(context, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            RESTART_INTENT_ID,
+            startActivity,
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+        Handler(Looper.getMainLooper()).postDelayed({
+            val mgr = context.getSystemService(ALARM_SERVICE) as AlarmManager
+            mgr[AlarmManager.RTC, System.currentTimeMillis() + 100] = pendingIntent
+            System.exit(0)
+        }, 500)
+    }
 }

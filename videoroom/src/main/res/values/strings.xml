@@ -26,4 +26,7 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="paste_invintation">Invitation from clipboard</string>
     <string name="application_settings">Application settings</string>
+    <string name="dialog_set_url_text">You can change the server url here.</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>
