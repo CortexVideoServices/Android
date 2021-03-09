@@ -1,15 +1,15 @@
 Cortex Video Services Android SDK
 =================================
-This repository contains class library and samples. In together, this is 
-the Cortex Video Services Android SDK, which helps you develop mobile applications 
-that enable video calling and video conferencing. This software is developing 
+This repository contains a class library and samples. Together, they represent  
+Cortex Video Services Android SDK, which helps you to develop mobile applications 
+that enable video calling and video conferencing. This software has been developed 
 and maintained with the support and assistance of [Cortex Technology].
 
 This repository contains two modules:
  
  * **solutions.cvs.sdk** -- This is the Android AAR library, which contains 
-   a set of classes of components of the SDK that will help you create 
-   a naive mobile application that implements video calls and video 
+   a set of classes of components of the SDK that will help you to create 
+   native mobile applications that implement video calls and video 
    conferencing using the [Cortex Video Services] platform.
   
  * **solutions.cvs.videoroom** -- This is a sample video conferencing application. 
