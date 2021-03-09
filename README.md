@@ -36,4 +36,4 @@ automatically. After comple build, you will get Android SDK as an AAR file, whic
 you can connect to your own project.
 
 [Cortex Video Services]: http://cvs.solutions
-[Cortex Technology]: http://cb.technology/
+[Cortex Technology]: http://cx.technology/
